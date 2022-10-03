@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class Order {
     private String r_name;
     private String r_address;
-    private String location;
     private String food;
     private String price;
 }
