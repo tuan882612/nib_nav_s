@@ -16,7 +16,7 @@ import java.util.UUID;
 @Document(collection = "feedback")
 public class Feedback {
     @Id
-    private String id = (UUID.randomUUID().toString()).substring(0,8);
+    private String id;
     private String name;
     private String comment;
 }

@@ -17,9 +17,8 @@ import java.util.UUID;
 @Document(collection = "user")
 public class User {
     @Id
-    private String id = (UUID.randomUUID().toString()).substring(0,8);
-    private String name;
     private String email;
+    private String name;
     private String password;
     private String address;
     private List<Order> order;

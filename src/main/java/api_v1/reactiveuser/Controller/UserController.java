@@ -1,5 +1,6 @@
 package api_v1.reactiveuser.Controller;
 
+import api_v1.reactiveuser.Model.Order;
 import api_v1.reactiveuser.Model.User;
 import api_v1.reactiveuser.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user/")
@@ -21,8 +24,12 @@ public class UserController {
     }
 
     @GetMapping("/test")
-    public String test() {
-        return "Testing Purpose";
+    public Mono<ResponseEntity<List<Order>>> test() {
+        return userService.findById("test@gmail.om")
+                .map(User::getOrder)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+
     }
 
     @GetMapping(value = "/get/all")
@@ -33,13 +40,6 @@ public class UserController {
     @GetMapping(value = "/get/{id}")
     public Mono<ResponseEntity<User>> getById(@PathVariable("id") String id) {
         return userService.findById(id)
-            .map(ResponseEntity::ok)
-            .defaultIfEmpty(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping(value = "/get/email/{email}")
-    public Mono<ResponseEntity<User>> getByEmail(@PathVariable("email") String email) {
-        return userService.findByEmail(email)
             .map(ResponseEntity::ok)
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
@@ -59,12 +59,6 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Mono<Void>> deleteById(@PathVariable("id") String id) {
         Mono<Void> user = userService.deleteById(id);
-        return new ResponseEntity<>(user,HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete/email/{email}")
-    public ResponseEntity<Mono<Void>> deleteByEmail(@PathVariable("email") String email) {
-        Mono<Void> user = userService.deleteByEmail(email);
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 }

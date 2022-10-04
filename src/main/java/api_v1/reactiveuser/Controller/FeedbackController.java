@@ -21,9 +21,7 @@ public class FeedbackController {
         this.feedBackService = feedBackService;
     }
 
-    @GetMapping(
-        value = "/get/all",
-        produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/get/all")
     @ResponseBody
     public Flux<Feedback> findAllFeedback() {
         return feedBackService.findAll();
