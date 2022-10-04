@@ -8,11 +8,19 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+
 @Service
 public class UserServiceImp implements UserService {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserServiceImp(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Flux<User> findAllUser() {
@@ -32,6 +40,21 @@ public class UserServiceImp implements UserService {
     @Override
     public void createUser(User user) {
         userRepository.save(user).subscribe();
+    }
+
+    @Override
+    public Mono<User> updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Mono<Void> deleteById(String id) {
+        return userRepository.deleteById(id);
+    }
+
+    @Override
+    public Mono<Void> deleteByEmail(String email) {
+        return userRepository.deleteById(email);
     }
 
     @Override

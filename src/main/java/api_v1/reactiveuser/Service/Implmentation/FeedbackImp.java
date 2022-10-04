@@ -11,8 +11,12 @@ import reactor.core.publisher.Mono;
 @Service
 public class FeedbackImp implements FeedbackService {
 
+    private final FeedbackRepository feedbackRepository;
+
     @Autowired
-    private FeedbackRepository feedbackRepository;
+    public FeedbackImp(FeedbackRepository feedbackRepository) {
+        this.feedbackRepository = feedbackRepository;
+    }
 
     @Override
     public Flux<Feedback> findAll() {

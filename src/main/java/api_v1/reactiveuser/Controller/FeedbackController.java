@@ -14,8 +14,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/feedback/")
 public class FeedbackController {
 
+    private final FeedbackService feedBackService;
+
     @Autowired
-    private FeedbackService feedBackService;
+    public FeedbackController(FeedbackService feedBackService) {
+        this.feedBackService = feedBackService;
+    }
 
     @GetMapping(
         value = "/get/all",
@@ -25,14 +29,14 @@ public class FeedbackController {
         return feedBackService.findAll();
     }
 
-    @GetMapping(value = "/get/{name}")
+    @GetMapping(value = "/get/name/{name}")
     public ResponseEntity<Mono<Feedback>> findFeedBackByName(@PathVariable String name) {
         Mono<Feedback> feedback = feedBackService.findByName(name);
         HttpStatus status = (feedback == null) ? HttpStatus.NOT_FOUND : HttpStatus.OK;
 
         return new ResponseEntity<>(feedback, status);
     }
-    @PostMapping("/createFeedback")
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFeedback(@RequestBody Feedback feedback) {
         feedBackService.createFeedback(feedback);

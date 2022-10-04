@@ -9,5 +9,8 @@ public interface UserService {
     Mono<User> findById(String id);
     Mono<User> findByEmail(String email);
     void createUser(User user);
+    Mono<User> updateUser(User user);
+    Mono<Void> deleteById(String id);
+    Mono<Void> deleteByEmail(String email);
     String testGet();
 }
