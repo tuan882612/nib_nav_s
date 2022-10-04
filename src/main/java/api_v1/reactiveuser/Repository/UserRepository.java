@@ -8,15 +8,9 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface UserRepository extends ReactiveMongoRepository<User,String> {
-    @Query(
-        value = "{email: ?0}",
-        fields = "{name: 0}"
-    )
+    @Query(value = "{email: ?0}")
     Mono<User> findByEmail(String email);
 
-    @Query(
-            value = "{email: ?0}",
-            fields = "{name: 0}"
-    )
+    @Query(value = "{email: ?0}")
     Mono<User> deleteByEmail(String email);
 }

@@ -4,14 +4,10 @@ import api_v1.reactiveuser.Model.User;
 import api_v1.reactiveuser.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/user/")
@@ -24,27 +20,28 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "Testing Purpose";
+    }
 
-    @GetMapping(
-        value = "/get/all",
-        produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    @ResponseBody
+    @GetMapping(value = "/get/all")
     public Flux<User> getAll() {
         return userService.findAllUser();
     }
 
     @GetMapping(value = "/get/{id}")
-    public ResponseEntity<Mono<User>> getById(@PathVariable("id") String id) {
-        Mono<User> user = userService.findById(id);
-
-        return new ResponseEntity<>(user, user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    public Mono<ResponseEntity<User>> getById(@PathVariable("id") String id) {
+        return userService.findById(id)
+            .map(ResponseEntity::ok)
+            .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = "/get/email/{email}")
-    public ResponseEntity<Mono<User>> getByEmail(@PathVariable("email") String email) {
-        Mono<User> user = userService.findByEmail(email);
-
-        return new ResponseEntity<>(user, user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    public Mono<ResponseEntity<User>> getByEmail(@PathVariable("email") String email) {
+        return userService.findByEmail(email)
+            .map(ResponseEntity::ok)
+            .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/create")
