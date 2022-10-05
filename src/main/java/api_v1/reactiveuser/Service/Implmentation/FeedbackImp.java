@@ -24,8 +24,8 @@ public class FeedbackImp implements FeedbackService {
     }
 
     @Override
-    public Mono<Feedback> findByName(String name) {
-        return feedbackRepository.findByName(name);
+    public Mono<Feedback> findById(String id) {
+        return feedbackRepository.findById(id);
     }
 
     @Override

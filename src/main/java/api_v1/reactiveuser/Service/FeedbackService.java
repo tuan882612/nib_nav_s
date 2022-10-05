@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface FeedbackService {
     Flux<Feedback> findAll();
-    Mono<Feedback> findByName(String name);
+    Mono<Feedback> findById(String Id);
     void createFeedback(Feedback feedback);
     String testGet();
 }
