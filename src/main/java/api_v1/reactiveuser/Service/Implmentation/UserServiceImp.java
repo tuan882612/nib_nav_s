@@ -8,10 +8,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.Optional;
-
 @Service
 public class UserServiceImp implements UserService {
 
@@ -38,8 +34,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void createUser(User user) {
-        userRepository.save(user).subscribe();
+    public Mono<User> createUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override

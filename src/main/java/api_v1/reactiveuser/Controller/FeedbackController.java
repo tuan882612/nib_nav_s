@@ -27,16 +27,17 @@ public class FeedbackController {
         return feedBackService.findAll();
     }
 
-    @GetMapping(value = "/get/name/{name}")
-    public ResponseEntity<Mono<Feedback>> findFeedBackByName(@PathVariable String name) {
-        Mono<Feedback> feedback = feedBackService.findByName(name);
-        HttpStatus status = (feedback == null) ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+//    @GetMapping(value = "/get/feedback/{id}")
+//    public Mono<ResponseEntity<List<Feedback>>> getFeedback(@PathVariable("id") String id) {
+//        return feedBackService.findByEmail(id).map()
+//    }
 
-        return new ResponseEntity<>(feedback, status);
-    }
-    @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createFeedback(@RequestBody Feedback feedback) {
-        feedBackService.createFeedback(feedback);
-    }
+@PostMapping("/create")
+@ResponseStatus(HttpStatus.CREATED)
+public void createFeedback(@RequestBody Feedback feedback) {
+    feedBackService.createFeedback(feedback);
+}
+
+//        return feedBackService.findByEmail(id).map()
+    // might need updating & delete for feedback
 }
