@@ -1,6 +1,5 @@
 package api_v1.reactiveuser.Controller;
 
-import api_v1.reactiveuser.Model.Favorite;
 import api_v1.reactiveuser.Model.Order;
 import api_v1.reactiveuser.Model.User;
 import api_v1.reactiveuser.Service.UserService;
@@ -46,40 +45,51 @@ public class UserController {
     }
 
     @GetMapping(value = "/get/order/{id}")
-    public Mono<ResponseEntity<List<Order>>> getOrder(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Object>> getOrder(@PathVariable("id") String id) {
         return userService.findById(id)
             .map(User::getOrder)
-            .map(ResponseEntity::ok)
+            .map(Orders -> (Orders.isEmpty()?
+                    ResponseEntity.noContent() : ResponseEntity.ok())
+                    .build())
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = "/get/favorite/{id}")
-    public Mono<ResponseEntity<List<Favorite>>> getFavorite(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Object>> getFavorite(@PathVariable("id") String id) {
         return userService.findById(id)
             .map(User::getFavorite)
-            .map(ResponseEntity::ok)
+            .map(Favorites -> (Favorites.isEmpty()?
+                    ResponseEntity.noContent() : ResponseEntity.ok())
+                    .build())
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/create")
     public Mono<ResponseEntity<Object>> create(@RequestBody User user) {
         return userService.findById(user.getEmail())
-            .map(u -> ResponseEntity.badRequest().build())
-            .defaultIfEmpty(new ResponseEntity<>(userService.createUser(user),HttpStatus.CREATED));
+            .map(u -> ResponseEntity.status(409).build())
+            .defaultIfEmpty(new ResponseEntity<>(
+                    userService.createUser(user),
+                        HttpStatus.CREATED));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Mono<User>> update(@RequestBody User user) {
-        Mono<User> out = userService.updateUser(user);
-        return new ResponseEntity<>(out,HttpStatus.OK);
+    public Mono<ResponseEntity<Mono<User>>> update(@RequestBody User user) {
+        return userService.findById(user.getEmail())
+            .map(u -> new ResponseEntity<>(
+                    userService.updateUser(user),
+                        HttpStatus.OK))
+            .defaultIfEmpty(new ResponseEntity<>(
+                    userService.createUser(user),
+                        HttpStatus.CREATED));
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<ResponseEntity<Object>> deleteById(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Object>> delete(@PathVariable("id") String id) {
         return userService.findById(id)
             .flatMap(user ->
-                userService.deleteById(user.getEmail())
-                    .then(Mono.just(ResponseEntity.ok().build()))
-            ).defaultIfEmpty(ResponseEntity.notFound().build());
+                    userService.deleteById(user.getEmail())
+                        .then(Mono.just(ResponseEntity.status(202).build()))
+                ).defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

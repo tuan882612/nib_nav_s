@@ -29,11 +29,6 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Mono<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
     public Mono<User> createUser(User user) {
         return userRepository.save(user);
     }
@@ -46,11 +41,6 @@ public class UserServiceImp implements UserService {
     @Override
     public Mono<Void> deleteById(String id) {
         return userRepository.deleteById(id);
-    }
-
-    @Override
-    public Mono<Void> deleteByEmail(String email) {
-        return userRepository.deleteById(email);
     }
 
     @Override
