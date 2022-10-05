@@ -16,7 +16,6 @@ import java.util.UUID;
 @Document(collection = "feedback")
 public class Feedback {
     @Id
-    private String id;
     private String name;
     private String comment;
 }
