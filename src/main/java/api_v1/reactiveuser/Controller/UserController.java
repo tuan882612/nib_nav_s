@@ -90,6 +90,6 @@ public class UserController {
             .flatMap(user ->
                     userService.deleteById(user.getEmail())
                         .then(Mono.just(ResponseEntity.status(202).build()))
-                ).defaultIfEmpty(ResponseEntity.notFound().build()); //TEst
+                ).defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }
