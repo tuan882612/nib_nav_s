@@ -28,6 +28,12 @@ public class FeedbackController {
         return feedBackService.findAll();
     }
 
+    @GetMapping(value = "/get/{id}")
+    public Mono<ResponseEntity<Feedback>> getFeedback(@PathVariable("id") String name) {
+        return feedBackService.findById(name)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
 //    @GetMapping(value = "/get/feedback/{id}")
 //    public Mono<ResponseEntity<List<Feedback>>> getFeedback(@PathVariable("id") String id) {
 //        return feedBackService.findByEmail(id).map()
