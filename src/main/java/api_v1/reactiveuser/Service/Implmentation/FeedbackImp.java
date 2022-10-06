@@ -29,8 +29,18 @@ public class FeedbackImp implements FeedbackService {
     }
 
     @Override
-    public void createFeedback(Feedback feedback) {
-        feedbackRepository.save(feedback).subscribe();
+    public Mono<Feedback> createFeedback(Feedback feedback) {
+        return feedbackRepository.save(feedback);
+    }
+
+    @Override
+    public Mono<Feedback> updateFeedback(Feedback feedback) {
+        return feedbackRepository.save(feedback);
+    }
+    
+    @Override
+    public Mono<Void> deleteById(String id) {
+        return feedbackRepository.deleteById(id);
     }
 
     @Override
