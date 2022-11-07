@@ -1,8 +1,5 @@
-package api_v1.reactiveuser.Service.Implmentation;
+package api_v1.reactiveuser.User;
 
-import api_v1.reactiveuser.Model.User;
-import api_v1.reactiveuser.Repository.UserRepository;
-import api_v1.reactiveuser.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

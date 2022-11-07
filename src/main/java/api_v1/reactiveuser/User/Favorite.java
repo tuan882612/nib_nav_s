@@ -1,4 +1,4 @@
-package api_v1.reactiveuser.Model;
+package api_v1.reactiveuser.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class Favorite {
     private String r_name;
     private String r_address;
-    private String food;
-    private String price;
 }

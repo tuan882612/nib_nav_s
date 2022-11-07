@@ -1,6 +1,6 @@
-package api_v1.reactiveuser.Repository;
+package api_v1.reactiveuser.Feedback;
 
-import api_v1.reactiveuser.Model.Feedback;
+import api_v1.reactiveuser.Feedback.Feedback;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;

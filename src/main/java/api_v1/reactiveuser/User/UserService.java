@@ -1,6 +1,5 @@
-package api_v1.reactiveuser.Service;
+package api_v1.reactiveuser.User;
 
-import api_v1.reactiveuser.Model.User;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
