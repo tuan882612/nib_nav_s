@@ -1,7 +1,5 @@
-package api_v1.reactiveuser.Controller;
+package api_v1.reactiveuser.Feedback;
 
-import api_v1.reactiveuser.Model.Feedback;
-import api_v1.reactiveuser.Service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -68,9 +66,9 @@ public class FeedbackController {
     @DeleteMapping("/delete/{id}")
     public Mono<ResponseEntity<Object>> deleteFeedback(@PathVariable("id") String id){
         return feedBackService.findById(id)
-                .flatMap(feedback ->
-                        feedBackService.deleteById(id)
-                                .then(Mono.just(ResponseEntity.status(202).build())))
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+            .flatMap(feedback ->
+                feedBackService.deleteById(id)
+                    .then(Mono.just(ResponseEntity.status(202).build())))
+            .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

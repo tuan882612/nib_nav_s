@@ -1,4 +1,4 @@
-package api_v1.reactiveuser.Model;
+package api_v1.reactiveuser.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +13,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "feedback")
-public class Feedback {
+@Document(collection = "user")
+public class User {
     @Id
+    private String email;
     private String name;
-    private String comment;
-    private List<Feedback> feedback;
+    private String password;
+    private String address;
+    private List<Order> order;
+    private List<Favorite> favorite;
 }

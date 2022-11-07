@@ -1,8 +1,5 @@
-package api_v1.reactiveuser.Controller;
+package api_v1.reactiveuser.User;
 
-import api_v1.reactiveuser.Model.Order;
-import api_v1.reactiveuser.Model.User;
-import api_v1.reactiveuser.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
