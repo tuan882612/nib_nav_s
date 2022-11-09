@@ -1,5 +1,7 @@
 package api_v1.reactiveuser.User;
 
+import api_v1.reactiveuser.User.Favorite.Favorite;
+import api_v1.reactiveuser.User.Order.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
