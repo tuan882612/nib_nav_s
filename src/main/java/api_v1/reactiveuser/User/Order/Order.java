@@ -1,4 +1,4 @@
-package api_v1.reactiveuser.User;
+package api_v1.reactiveuser.User.Order;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
