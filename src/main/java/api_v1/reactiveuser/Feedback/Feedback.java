@@ -16,7 +16,7 @@ import java.util.List;
 @Document(collection = "feedback")
 public class Feedback {
     @Id
-    private String name;
+    private String email;
     private String comment;
     private List<Feedback> feedback;
 }
