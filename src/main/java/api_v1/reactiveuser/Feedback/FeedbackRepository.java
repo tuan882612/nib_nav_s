@@ -8,6 +8,4 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface FeedbackRepository extends ReactiveMongoRepository<Feedback, String> {
-    @Query("{name: ?0}")
-    Mono<Feedback> findByEmail(String name);
 }
