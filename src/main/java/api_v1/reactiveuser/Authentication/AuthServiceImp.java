@@ -25,6 +25,11 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
+    public Mono<Auth> findByEmail(String email) {
+        return authRepository.findAuthByEmail(email);
+    }
+
+    @Override
     public Mono<Void> delete(Auth auth) {
         return authRepository.delete(auth);
     }
