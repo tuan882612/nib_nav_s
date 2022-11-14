@@ -7,6 +7,6 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface AuthRepository extends ReactiveMongoRepository<Auth, String> {
-    @Query(value = "{_id: ?0}")
-    Mono<Auth> findAuthByEmail(String email);
+    @Query(value = "{key: ?0}")
+    Mono<Auth> findAuthByKey(int key);
 }

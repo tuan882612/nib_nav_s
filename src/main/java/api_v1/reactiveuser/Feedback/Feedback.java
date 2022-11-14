@@ -17,6 +17,6 @@ import java.util.List;
 public class Feedback {
     @Id
     private String email;
+    private String name;
     private String comment;
-    private List<Feedback> feedback;
 }
