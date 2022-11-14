@@ -14,7 +14,7 @@ public class AuthUtilities {
     public static SimpleMailMessage generateEmail(String email, int key) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("nibnav0@gmail.com");
-        message.setTo("tuan882612@gmail.com");
+        message.setTo(email);
         message.setSubject("NibNav Authentication Key");
         message.setText("key : " + key);
         return message;

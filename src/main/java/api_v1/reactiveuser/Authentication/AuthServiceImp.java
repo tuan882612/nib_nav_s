@@ -20,13 +20,8 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public Mono<Auth> find(int key) {
-        return authRepository.findById(String.valueOf(key));
-    }
-
-    @Override
-    public Mono<Auth> findByEmail(String email) {
-        return authRepository.findAuthByEmail(email);
+    public Mono<Auth> findByKey(int key) {
+        return authRepository.findAuthByKey(key);
     }
 
     @Override

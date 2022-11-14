@@ -18,4 +18,5 @@ public class Auth implements Serializable {
     @Id
     private String email;
     private Integer key;
+    private boolean found;
 }

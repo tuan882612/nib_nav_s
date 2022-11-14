@@ -4,6 +4,7 @@ import api_v1.reactiveuser.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -16,9 +17,7 @@ import static api_v1.reactiveuser.Utilities.AuthUtilities.generateKey;
 public class AuthController {
     private final JavaMailSender sender;
     private final AuthService authService;
-
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public AuthController(
@@ -30,27 +29,31 @@ public class AuthController {
         this.sender = sender;
     }
 
-    @PostMapping("/retrieve/{id}")
+    @PostMapping("/generate/{id}")
     public Mono<ResponseEntity<Object>> retrieveAuthInfo(@PathVariable("id") String id) {
         return userService.findById(id)
             .map(user -> ResponseEntity.status(409).build())
-            .switchIfEmpty(
-                authService.save(new Auth(id, generateKey()))
+            .defaultIfEmpty(
+                new ResponseEntity<>(
+                    authService.save(new Auth(id, generateKey(), false))
                     .map(auth -> {
-                        sender.send(generateEmail(auth.getEmail(),auth.getKey()));
-                        return new ResponseEntity<>(auth, HttpStatus.CREATED);
-                    }));
+                        SimpleMailMessage message = generateEmail(auth.getEmail(),auth.getKey());
+                        sender.send(message);
+                        return auth;
+                    }), HttpStatus.CREATED));
     }
 
-//    @GetMapping("verify/{id}")
-//    public void verifyAuthInfo(@PathVariable("id") int id) {
-//        Mono<Auth> entity = authService.find(id);
-//    }
+    @GetMapping("/verify/")
+    public Mono<ResponseEntity<Auth>> verifyAuthInfo(@RequestBody Auth auth) {
+        return authService.findByKey(auth.getKey())
+            .map(body -> {
+                body.setFound(true);
+                return new ResponseEntity<>(body, HttpStatus.OK);
+            }).defaultIfEmpty(new ResponseEntity<>(auth,HttpStatus.NO_CONTENT));
+    }
+
+    @DeleteMapping("/clean/")
+    public Mono<Void> cleanAuth(@RequestBody Auth auth) {
+        return authService.delete(auth);
+    }
 }
-/*
-    verifyAuth arg1=id -> key
-        entity = repo.find(key)
-        repo.delete(entity)
-        String body = (entity is NULL)? "{auth:false}":"{auth:true}"
-        return new response-body(body, status 200)
-*/
