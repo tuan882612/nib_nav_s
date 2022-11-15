@@ -1,6 +1,7 @@
 package api_v1.reactiveuser.Sessions;
 
-import org.springframework.boot.web.server.Cookie;
+import javax.servlet.http.Cookie;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 

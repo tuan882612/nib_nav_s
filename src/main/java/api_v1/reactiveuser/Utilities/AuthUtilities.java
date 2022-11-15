@@ -1,8 +1,6 @@
 package api_v1.reactiveuser.Utilities;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.Random;
 

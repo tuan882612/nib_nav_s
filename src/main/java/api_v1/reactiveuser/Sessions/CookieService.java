@@ -1,7 +1,7 @@
 package api_v1.reactiveuser.Sessions;
 
-import org.springframework.stereotype.Service;
+import javax.servlet.http.Cookie;
+import reactor.core.publisher.Mono;
 
-@Service
-public class CookieService {
+public interface CookieService {
 }

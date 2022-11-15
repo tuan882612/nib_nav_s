@@ -30,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/generate/{id}")
-    public Mono<ResponseEntity<Object>> retrieveAuthInfo(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Object>> generateAuthInfo(@PathVariable("id") String id) {
         return userService.findById(id)
             .map(user -> ResponseEntity.status(409).build())
             .defaultIfEmpty(
