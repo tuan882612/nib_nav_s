@@ -49,7 +49,7 @@ public class AuthController {
             .map(body -> {
                 body.setFound(true);
                 return new ResponseEntity<>(body, HttpStatus.OK);
-            }).defaultIfEmpty(new ResponseEntity<>(auth,HttpStatus.NO_CONTENT));
+            }).defaultIfEmpty(new ResponseEntity<>(auth, HttpStatus.OK));
     }
 
     @DeleteMapping("/clean/")
