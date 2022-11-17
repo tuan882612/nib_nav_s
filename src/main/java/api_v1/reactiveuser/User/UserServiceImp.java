@@ -2,7 +2,6 @@ package api_v1.reactiveuser.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -16,13 +15,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Flux<User> findAllUser() {
-        return userRepository.findAll();
+    public Mono<User> findById(String id) {
+        return userRepository.findById(id);
     }
 
     @Override
-    public Mono<User> findById(String id) {
-        return userRepository.findById(id);
+    public Mono<User> findByEmailPassword(String email, String password) {
+        return userRepository.findUserByEmailPassword(email, password);
     }
 
     @Override

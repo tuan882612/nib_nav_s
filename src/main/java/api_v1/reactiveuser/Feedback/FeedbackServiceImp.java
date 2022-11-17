@@ -2,22 +2,16 @@ package api_v1.reactiveuser.Feedback;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class FeedbackImp implements FeedbackService {
+public class FeedbackServiceImp implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
 
     @Autowired
-    public FeedbackImp(FeedbackRepository feedbackRepository) {
+    public FeedbackServiceImp(FeedbackRepository feedbackRepository) {
         this.feedbackRepository = feedbackRepository;
-    }
-
-    @Override
-    public Flux<Feedback> findAll() {
-        return feedbackRepository.findAll();
     }
 
     @Override

@@ -9,6 +9,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.Date;
+
 import static api_v1.reactiveuser.Utilities.AuthUtilities.generateEmail;
 import static api_v1.reactiveuser.Utilities.AuthUtilities.generateKey;
 
@@ -30,12 +32,12 @@ public class AuthController {
     }
 
     @PostMapping("/generate/{id}")
-    public Mono<ResponseEntity<Object>> retrieveAuthInfo(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Object>> generateAuthInfo(@PathVariable("id") String id) {
         return userService.findById(id)
-            .map(user -> ResponseEntity.status(409).build())
+            .map(user -> new ResponseEntity<>(null, HttpStatus.CONFLICT))
             .defaultIfEmpty(
                 new ResponseEntity<>(
-                    authService.save(new Auth(id, generateKey(), false))
+                    authService.save(new Auth(id, generateKey(), false, new Date()))
                     .map(auth -> {
                         SimpleMailMessage message = generateEmail(auth.getEmail(),auth.getKey());
                         sender.send(message);
@@ -49,11 +51,6 @@ public class AuthController {
             .map(body -> {
                 body.setFound(true);
                 return new ResponseEntity<>(body, HttpStatus.OK);
-            }).defaultIfEmpty(new ResponseEntity<>(auth,HttpStatus.NO_CONTENT));
-    }
-
-    @DeleteMapping("/clean/")
-    public Mono<Void> cleanAuth(@RequestBody Auth auth) {
-        return authService.delete(auth);
+            }).defaultIfEmpty(new ResponseEntity<>(auth, HttpStatus.OK));
     }
 }

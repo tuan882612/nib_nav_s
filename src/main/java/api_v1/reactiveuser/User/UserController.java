@@ -9,7 +9,6 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/user/")
 public class UserController {
-
     private final UserService userService;
 
     @Autowired
@@ -20,25 +19,25 @@ public class UserController {
     @GetMapping(value = "/get/{id}")
     public Mono<ResponseEntity<User>> getById(@PathVariable("id") String id) {
         return userService.findById(id)
-            .map(ResponseEntity::ok)
-            .defaultIfEmpty(ResponseEntity.notFound().build());
+            .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+            .defaultIfEmpty(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/create")
     public Mono<ResponseEntity<Object>> create(@RequestBody User user) {
         return userService.findById(user.getEmail())
-            .map(u -> ResponseEntity.status(409).build())
-            .defaultIfEmpty(
-                new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED));
+            .map(u -> new ResponseEntity<>(null, HttpStatus.CONFLICT))
+            .defaultIfEmpty(new ResponseEntity<>(
+                userService.createUser(user), HttpStatus.CREATED));
     }
 
     @PutMapping("/update")
     public Mono<ResponseEntity<Mono<User>>> update(@RequestBody User user) {
         return userService.findById(user.getEmail())
-            .map(u ->
-                new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK))
-            .defaultIfEmpty(
-                new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED));
+            .map(u -> new ResponseEntity<>(
+                userService.updateUser(user), HttpStatus.OK))
+            .defaultIfEmpty(new ResponseEntity<>(
+                userService.createUser(user), HttpStatus.CREATED));
     }
 
     @DeleteMapping("/delete/{id}")
