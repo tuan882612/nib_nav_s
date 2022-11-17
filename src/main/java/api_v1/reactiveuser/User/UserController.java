@@ -41,11 +41,10 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<ResponseEntity<Object>> delete(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Mono<Void>>> delete(@PathVariable("id") String id) {
         return userService.findById(id)
-            .flatMap(user ->
-                userService.deleteById(user.getEmail())
-                    .then(Mono.just(ResponseEntity.status(202).build()))
-            ).defaultIfEmpty(ResponseEntity.notFound().build());
+            .map(user -> new ResponseEntity<>(
+                userService.deleteById(user.getEmail()), HttpStatus.ACCEPTED))
+            .defaultIfEmpty(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 }
