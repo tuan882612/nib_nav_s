@@ -23,9 +23,4 @@ public class AuthServiceImp implements AuthService {
     public Mono<Auth> findByKey(int key) {
         return authRepository.findAuthByKey(key);
     }
-
-    @Override
-    public Mono<Void> delete(Auth auth) {
-        return authRepository.delete(auth);
-    }
 }

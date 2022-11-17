@@ -1,6 +1,6 @@
 package api_v1.reactiveuser.User;
 
-import reactor.core.publisher.Flux;
+
 import reactor.core.publisher.Mono;
 
 public interface UserService {
