@@ -16,13 +16,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Flux<User> findAllUser() {
-        return userRepository.findAll();
+    public Mono<User> findById(String id) {
+        return userRepository.findById(id);
     }
 
     @Override
-    public Mono<User> findById(String id) {
-        return userRepository.findById(id);
+    public Mono<User> findByEmailPassword(String email, String password) {
+        return userRepository.findUserByEmailPassword(email, password);
     }
 
     @Override

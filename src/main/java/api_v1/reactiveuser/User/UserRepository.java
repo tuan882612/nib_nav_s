@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface UserRepository extends ReactiveMongoRepository<User,String> {
-    @Query(value = "{email: ?0}")
-    Mono<User> findByEmail(String email);
+
+    @Query("{$and :[{_id: ?0},{password: ?1}] }")
+    Mono<User> findUserByEmailPassword(String email, String password);
 }
