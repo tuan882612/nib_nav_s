@@ -1,4 +1,4 @@
-package api_v1.reactiveuser.User;
+package api_v1.reactiveuser.Authentication;
 
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
@@ -6,8 +6,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface UserRepository extends ReactiveMongoRepository<User,String> {
-
-    @Query("{$and :[{_id: ?0},{password: ?1}] }")
-    Mono<User> findUserByEmailPassword(String email, String password);
+public interface AuthRepository extends ReactiveMongoRepository<Auth, String> {
+    @Query(value = "{key: ?0}")
+    Mono<Auth> findAuthByKey(int key);
 }

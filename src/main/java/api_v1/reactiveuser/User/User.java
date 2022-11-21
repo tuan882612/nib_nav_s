@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,12 +18,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "user")
-public class User {
+public class User implements Serializable {
     @Id
     private String email;
     private String name;
     private String password;
     private String address;
-    private List<Order> order;
-    private List<Favorite> favorite;
+    private List<Order> order = new ArrayList<>();
+    private List<Favorite> favorite = new ArrayList<>();
+
+    public User(
+        String email,
+        String name,
+        String password,
+        String address) {
+        setEmail(email);
+        setName(name);
+        setPassword(password);
+        setAddress(address);
+    }
 }
