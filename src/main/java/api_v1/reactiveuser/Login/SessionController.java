@@ -52,4 +52,12 @@ public class SessionController {
                     .flatMap(temp -> userService.findById(user.getEmail())), HttpStatus.OK);
             }).defaultIfEmpty(new ResponseEntity<>(null, HttpStatus.NO_CONTENT));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public Mono<ResponseEntity<Mono<Void>>> deleteSession(@PathVariable("id") String id) {
+        return sessionService.findSession(id)
+        .map(s -> new ResponseEntity<>(
+            sessionService.deleteSession(id), HttpStatus.ACCEPTED))
+        .defaultIfEmpty(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
 }

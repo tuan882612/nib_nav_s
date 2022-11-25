@@ -22,4 +22,9 @@ public class SessionServiceImp implements SessionService {
     public Mono<Session> findSession(String id) {
         return repository.findById(id);
     }
+
+    @Override
+    public Mono<Void> deleteSession(String id) {
+        return repository.deleteById(id);
+    }
 }
