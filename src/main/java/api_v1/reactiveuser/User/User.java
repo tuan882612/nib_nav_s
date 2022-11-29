@@ -23,18 +23,15 @@ public class User implements Serializable {
     private String email;
     private String name;
     private String password;
-    private String address;
     private List<Order> order = new ArrayList<>();
     private List<Favorite> favorite = new ArrayList<>();
 
     public User(
         String email,
         String name,
-        String password,
-        String address) {
+        String password) {
         setEmail(email);
         setName(name);
         setPassword(password);
-        setAddress(address);
     }
 }
