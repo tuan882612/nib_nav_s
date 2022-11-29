@@ -45,12 +45,12 @@ public class AuthController {
                     }), HttpStatus.CREATED));
     }
 
-    @GetMapping("/verify/")
-    public Mono<ResponseEntity<Auth>> verifyAuthInfo(@RequestBody Auth auth) {
-        return authService.findByKey(auth.getKey())
+    @GetMapping("/verify/{key}")
+    public Mono<ResponseEntity<Mono<Auth>>> verifyAuthInfo(@PathVariable("key") int key) {
+        return authService.findByKey(key)
             .map(body -> {
                 body.setFound(true);
-                return new ResponseEntity<>(body, HttpStatus.OK);
-            }).defaultIfEmpty(new ResponseEntity<>(auth, HttpStatus.OK));
+                return new ResponseEntity<>(Mono.just(body), HttpStatus.OK);
+            }).defaultIfEmpty(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 }

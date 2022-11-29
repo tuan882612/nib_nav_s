@@ -37,7 +37,7 @@ public class SessionController {
             .defaultIfEmpty(new ResponseEntity<>(
                 sessionService.createSession(new Session(preLogin.getEmail(), new Date()))
                     .flatMap(temp -> {
-                        User user = new User(preLogin.getEmail(), preLogin.getName(), preLogin.getPassword(), preLogin.getAddress());
+                        User user = new User(preLogin.getEmail(), preLogin.getName(), preLogin.getPassword());
                         return userService.createUser(user);
                     }), HttpStatus.OK));
     }
