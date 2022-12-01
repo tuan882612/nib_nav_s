@@ -32,9 +32,15 @@ public class AuthController {
     }
 
     @PostMapping("/generate/{id}")
-    public Mono<ResponseEntity<Object>> generateAuthInfo(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Mono<Auth>>> generateAuthInfo(@PathVariable("id") String id) {
         return userService.findById(id)
-            .map(user -> new ResponseEntity<>(null, HttpStatus.CONFLICT))
+            .map(user -> new ResponseEntity<>(
+                authService.save(new Auth(id, generateKey(), false, new Date()))
+                .map(auth -> {
+                    SimpleMailMessage message = generateEmail(auth.getEmail(),auth.getKey());
+                    sender.send(message);
+                    return auth;
+                }), HttpStatus.CONFLICT))
             .defaultIfEmpty(
                 new ResponseEntity<>(
                     authService.save(new Auth(id, generateKey(), false, new Date()))
