@@ -26,9 +26,10 @@ public class FeedbackController {
     }
 
     @PostMapping("/create")
-    public Mono<ResponseEntity<Object>> createFeedback(@RequestBody Feedback feedback){
+    public Mono<ResponseEntity<Mono<Feedback>>> createFeedback(@RequestBody Feedback feedback){
         return feedBackService.findById(feedback.getEmail())
-            .map(fb -> new ResponseEntity<>(null, HttpStatus.CONFLICT))
+            .map(fb -> new ResponseEntity<>(
+                feedBackService.createFeedback(feedback), HttpStatus.CREATED))
             .defaultIfEmpty(new ResponseEntity<>(
                 feedBackService.createFeedback(feedback), HttpStatus.CREATED));
     }
