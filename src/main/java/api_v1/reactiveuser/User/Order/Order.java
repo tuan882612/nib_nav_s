@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
-    private String r_name;
-    private String r_address;
-    private String food;
-    private String price;
+    private String recipe;
+    private String store;
+    private String cost;
 }
