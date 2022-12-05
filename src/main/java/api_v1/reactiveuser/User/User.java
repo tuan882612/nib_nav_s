@@ -24,7 +24,7 @@ public class User implements Serializable {
     private String name;
     private String password;
     private List<Order> order = new ArrayList<>();
-    private List<Favorite> favorite = new ArrayList<>();
+//    private List<Favorite> favorite = new ArrayList<>();
 
     public User(
         String email,
