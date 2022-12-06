@@ -32,12 +32,8 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public Mono<ResponseEntity<Mono<User>>> update(@RequestBody User user) {
-        return userService.findById(user.getEmail())
-            .map(u -> new ResponseEntity<>(
-                userService.updateUser(user), HttpStatus.OK))
-            .defaultIfEmpty(new ResponseEntity<>(
-                userService.createUser(user), HttpStatus.CREATED));
+    public ResponseEntity<Mono<User>> update(@RequestBody User user) {
+        return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
